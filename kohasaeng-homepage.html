@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kohasa Engineering — Engineering Design & Project Management</title>
+<meta name="description" content="Kohasa Engineering Company Limited — engineering design, project management, procurement and construction management for oil and gas, Nigeria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C8991A;
+    --gold-light: #E8B930;
+    --dark: #0A0C0F;
+    --dark2: #111418;
+    --dark3: #181C22;
+    --steel: #1E2530;
+    --mist: #8A95A3;
+    --white: #F4F1EB;
+    --blue-accent: #1A4A8C;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-condensed: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 15% 10%, rgba(26,74,140,0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 70% at 90% 85%, rgba(200,153,26,0.05) 0%, transparent 55%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 3px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Group top bar ── */
+  .group-bar {
+    position: relative;
+    z-index: 200;
+    background: rgba(200,153,26,0.08);
+    border-bottom: 1px solid rgba(200,153,26,0.2);
+    padding: 10px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .group-bar p {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(200,153,26,0.8);
+  }
+
+  .group-bar-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .group-bar-links span {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(138,149,163,0.7);
+  }
+
+  .group-bar-links a {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .group-bar-links a:hover { color: var(--gold-light); }
+
+  .group-bar-links .divider {
+    color: rgba(138,149,163,0.3);
+    font-size: 10px;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,15,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(200,153,26,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    height: 72px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo img { height: 40px; filter: brightness(1.1); }
+
+  .nav-brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .nav-brand .name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+
+  .nav-brand .division {
+    font-family: var(--font-condensed);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-switch {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(200,153,26,0.35);
+    border-radius: 3px;
+    padding: 8px 16px;
+    transition: all 0.25s;
+  }
+
+  .nav-switch:hover { background: rgba(200,153,26,0.1); border-color: var(--gold); }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 60px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,12,15,1) 0%, rgba(10,12,15,0.65) 40%, rgba(10,12,15,0.15) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .hero-tag {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.3s;
+  }
+
+  .hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 7vw, 92px);
+    line-height: 0.93;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+    margin-bottom: 28px;
+  }
+
+  .hero-title em { font-style: normal; color: var(--gold); }
+
+  .hero-body {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.75;
+    max-width: 580px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .btn-primary {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dark);
+    background: var(--gold);
+    border: none;
+    border-radius: 3px;
+    padding: 16px 32px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-outline {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 3px;
+    padding: 16px 32px;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
+
+  /* ── Shared section ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 96px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 4.5vw, 60px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 20px;
+  }
+
+  .section-body {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.8;
+    max-width: 580px;
+  }
+
+  /* ── Services ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+  }
+
+  .service-card {
+    background: var(--dark2);
+    border: 1px solid rgba(200,153,26,0.1);
+    padding: 40px 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .service-card:hover { border-color: rgba(200,153,26,0.35); transform: translateY(-2px); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(200,153,26,0.25);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  .service-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .service-card h3 {
+    font-family: var(--font-condensed);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .service-card p {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.75;
+  }
+
+  /* ── About strip ── */
+  .about-strip {
+    position: relative;
+    z-index: 1;
+    background: var(--dark2);
+    border-top: 1px solid rgba(200,153,26,0.1);
+    border-bottom: 1px solid rgba(200,153,26,0.1);
+    padding: 80px 60px;
+  }
+
+  .about-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+
+  .disciplines {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .disc-tag {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+    border: 1px solid rgba(138,149,163,0.25);
+    border-radius: 3px;
+    padding: 6px 12px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding-top: 8px;
+  }
+
+  .stat-block {
+    border-left: 2px solid var(--gold);
+    padding-left: 18px;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-top: 5px;
+  }
+
+  /* ── CTA Banner ── */
+  .cta-banner {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, rgba(200,153,26,0.12) 0%, rgba(200,153,26,0.04) 100%);
+    border: 1px solid rgba(200,153,26,0.25);
+    border-radius: 8px;
+    margin: 0 60px 80px;
+    padding: 60px 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .cta-text h2 {
+    font-family: var(--font-display);
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .cta-text p { font-size: 15px; font-weight: 300; color: var(--mist); }
+
+  /* ── Sister banner ── */
+  .sister-bar {
+    position: relative;
+    z-index: 1;
+    background: var(--dark2);
+    border-top: 1px solid rgba(200,153,26,0.1);
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .sister-bar p {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--mist);
+    text-transform: uppercase;
+  }
+
+  .sister-bar a {
+    font-family: var(--font-condensed);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid rgba(200,153,26,0.35);
+    border-radius: 3px;
+    padding: 8px 20px;
+    transition: all 0.25s;
+  }
+
+  .sister-bar a:hover { background: rgba(200,153,26,0.1); border-color: var(--gold); }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 56px 60px 40px;
+  }
+
+  .footer-grid {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-brand img { height: 44px; margin-bottom: 16px; filter: brightness(0.9); }
+  .footer-brand p { font-size: 13px; font-weight: 300; color: var(--mist); line-height: 1.75; max-width: 260px; }
+
+  .footer-col h5 {
+    font-family: var(--font-condensed);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { font-size: 13px; font-weight: 300; color: var(--mist); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--white); }
+
+  .footer-bottom {
+    max-width: 1300px;
+    margin: 28px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    font-family: var(--font-condensed);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(138,149,163,0.5);
+  }
+
+  .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 960px) {
+    .group-bar { padding: 10px 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 24px 60px; }
+    .section { padding: 64px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-inner { grid-template-columns: 1fr; gap: 48px; }
+    .cta-banner { flex-direction: column; margin: 0 24px 60px; padding: 40px 32px; text-align: center; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .sister-bar { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Group top bar — shows group identity and cross-links ── -->
+<div class="group-bar">
+  <p>Part of the Kohasa Group of Companies</p>
+  <div class="group-bar-links">
+    <span>Also visit:</span>
+    <!-- LINK: Update href to your KohasaConstruction homepage URL -->
+    <a href="https://kohasaconstruction.com/home">Kohasa Construction</a>
+    <span class="divider">|</span>
+    <!-- LINK: Update href to your shared group landing page URL -->
+    <a href="https://kohasaeng.com">Group Overview</a>
+  </div>
+</div>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://kohasaeng.com/wp-content/uploads/2024/10/logo-kohasa.png" alt="Kohasa Logo">
+    <div class="nav-brand">
+      <span class="name">KOHASA</span>
+      <span class="division">Engineering</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://kohasaeng.com/services/">Services</a></li>
+    <li><a href="https://kohasaeng.com/projects/">Projects</a></li>
+    <li><a href="https://kohasaeng.com/qhse">QHSE</a></li>
+    <li><a href="https://kohasaeng.com/about/">About</a></li>
+    <li><a href="https://kohasaeng.com/contact/">Contact</a></li>
+  </ul>
+  <!-- LINK: Update href to your KohasaConstruction homepage URL -->
+  <a href="https://kohasaconstruction.com/home" class="nav-switch">↗ KohasaConstruction</a>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://kohasaeng.com/wp-content/uploads/2024/10/process.png" alt="Engineering">
+  </div>
+  <div class="hero-content">
+    <p class="hero-tag">Kohasa Engineering Company Limited</p>
+    <h1 class="hero-title">
+      Engineering the<br>
+      <em>Future</em> of<br>
+      Oil & Gas.
+    </h1>
+    <p class="hero-body">
+      Over two decades of unparalleled expertise in engineering design, project management consultancy, procurement, and construction management for Nigeria's oil and gas industry.
+    </p>
+    <div class="hero-actions">
+      <a href="https://kohasaeng.com/proposal" class="btn-primary">Get a Proposal</a>
+      <a href="https://kohasaeng.com/services/" class="btn-outline">Our Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services ── -->
+<section class="section" id="services">
+  <p class="section-label">What We Do</p>
+  <h2 class="section-title">Engineering Services</h2>
+  <p class="section-body">From conceptual engineering through FEED and into construction management — a full-service engineering capability under one roof.</p>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      </div>
+      <h3>Engineering Design</h3>
+      <p>Process, civil, piping, mechanical, electrical, and instrumentation engineering — conceptual through detailed design and FEED.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>Project Management (PMC)</h3>
+      <p>End-to-end project management consultancy. Planning, monitoring, coordination and delivery oversight across all project phases.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </div>
+      <h3>Procurement Management</h3>
+      <p>Strategic procurement planning, vendor management, and supply chain coordination for materials and equipment.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+      </div>
+      <h3>Construction Management</h3>
+      <p>Quality-driven construction management ensuring work is executed to specification, schedule, and international safety standards.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Manpower & Training</h3>
+      <p>Provision of skilled technical manpower and structured training programmes for oil and gas engineering personnel.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>QHSE</h3>
+      <p>Integrated Management System covering Quality, Health, Safety and Environment — meeting and exceeding client and regulatory requirements.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── About ── -->
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <p class="section-label">About Kohasa Engineering</p>
+      <h2 class="section-title">Nigeria's Oil & Gas Engineering Specialists</h2>
+      <p>Kohasa Engineering Company Limited is a wholly indigenous Nigerian company specialising in the design and construction management of onshore and offshore oil and gas production facilities.</p>
+      <p>With extensive experience across all engineering disciplines, we deliver innovative and reliable solutions — from conceptual engineering and FEED to upgrades, repairs, and revamping of swamp, onshore, and offshore facilities.</p>
+      <p>Incorporated in 2003 and headquartered at Trans-Amadi Industrial Layout, Port Harcourt, our seasoned professionals are dedicated to cutting-edge solutions that meet the highest standards of safety, efficiency, and sustainability.</p>
+      <div class="disciplines">
+        <span class="disc-tag">Process Engineering</span>
+        <span class="disc-tag">Civil Engineering</span>
+        <span class="disc-tag">Piping & Pipeline</span>
+        <span class="disc-tag">Mechanical</span>
+        <span class="disc-tag">Electrical</span>
+        <span class="disc-tag">Instrumentation</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-block">
+        <div class="stat-num">20+</div>
+        <div class="stat-lbl">Years of Excellence</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">ISO</div>
+        <div class="stat-lbl">Certified IMS</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">6</div>
+        <div class="stat-lbl">Engineering Disciplines</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">PH</div>
+        <div class="stat-lbl">Trans-Amadi HQ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<div class="cta-banner" id="contact">
+  <div class="cta-text">
+    <h2>Start a Project With Us</h2>
+    <p>Download our corporate brochure or send us your project requirements today.</p>
+  </div>
+  <div style="display:flex;gap:16px;flex-shrink:0;flex-wrap:wrap;">
+    <a href="https://kohasaeng.com/proposal" class="btn-primary">Get a Proposal</a>
+    <a href="https://kohasaeng.com/wp-content/uploads/2024/10/KOHASA-CORPORATE-BROCHURE_2024.pdf" class="btn-outline" target="_blank">Download Brochure</a>
+  </div>
+</div>
+
+<!-- ── Sister site banner ── -->
+<div class="sister-bar">
+  <p>Also part of the Kohasa Group</p>
+  <!-- LINK: Update href to your KohasaConstruction homepage URL -->
+  <a href="https://kohasaconstruction.com/home">↗ Visit Kohasa Construction</a>
+  <!-- LINK: Update href to your shared group landing page URL -->
+  <a href="https://kohasaeng.com">View Group Overview</a>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://kohasaeng.com/wp-content/uploads/2024/10/white_logo-1.png" alt="Kohasa">
+      <p>Our goal is to foster long-term partnerships, uphold the highest standards of quality and safety, and contribute to the sustainable development of the oil, gas and energy sector.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="https://kohasaeng.com/engineering-design/">Engineering Design</a></li>
+        <li><a href="https://kohasaeng.com/pmc/">PMC</a></li>
+        <li><a href="https://kohasaeng.com/procurement-mgt/">Procurement</a></li>
+        <li><a href="https://kohasaeng.com/construction-mgt/">Construction Mgt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="https://kohasaeng.com/about/">About Us</a></li>
+        <li><a href="https://kohasaeng.com/projects/">Projects</a></li>
+        <li><a href="https://kohasaeng.com/clients">Clients</a></li>
+        <li><a href="https://kohasaeng.com/certifications/">Certifications</a></li>
+        <li><a href="https://kohasaeng.com/career">Careers</a></li>
+        <li><a href="https://kohasaeng.com/blog/">News & Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="tel:+2341255016166">+234 1 255 0161–66</a></li>
+        <li><a href="mailto:info@kohasaeng.com">info@kohasaeng.com</a></li>
+        <li><a href="#">474 Trans-Amadi Industrial Layout, Port Harcourt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Kohasa Engineering Company Limited. All rights reserved.</p>
+    <p>Part of the <a href="https://kohasaeng.com">Kohasa Group</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
